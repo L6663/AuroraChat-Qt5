@@ -1,0 +1,33 @@
+# Qt build output
+build-*/
+debug/
+release/
+*.o
+*.obj
+*.exe
+*.dll
+*.a
+*.lib
+*.pdb
+*.ilk
+*.user
+*.user.*
+Makefile
+Makefile.*
+.qmake.stash
+
+# Runtime data
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.log
+storage/
+downloads/
+
+# IDE / OS
+.vscode/
+.idea/
+.vs/
+Thumbs.db
+.DS_Store

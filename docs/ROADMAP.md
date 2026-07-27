@@ -1,41 +1,63 @@
-# Aurora Chat Roadmap
+# Roadmap
 
-## P0 — 可靠性与 UI 一致性
+标记说明：
 
-- [x] 好友申请接受/拒绝选择与请求状态反馈
-- [x] 消息等待网络、发送中、已发送、已送达、已读、失败状态
-- [x] 断线后的待发送队列与重连补发
-- [x] 历史消息游标分页与草稿持久化
-- [x] 分片上传与下载基础链路
-- [x] 统一自定义确认弹窗
-- [x] 区域截图选择基础能力
-- [ ] 替换剩余原生消息框与输入框
-- [ ] 文件分片超时和有界重试
-- [ ] SHA-256 完整性校验
-- [ ] 断线后的文件传输续传
-- [ ] 独立传输任务中心
-- [ ] 完整单聊、群聊、文件回归测试矩阵
+- `[x]`：源码已实现并通过静态审查；
+- `[ ]`：尚未实现，或仍等待完整 Qt 5.4 实机回归。
 
-## P1 — 聊天产品体验
+## P0 — Reliability and UI consistency
 
-- [ ] 消息回复、复制、转发和撤回
-- [ ] 粘贴或拖拽图片、文件发送
-- [ ] 图片查看器
-- [ ] 会话置顶、免打扰、标记未读
-- [ ] 群名称、头像、公告和群主转让
-- [ ] 用户头像上传
-- [ ] 区域截图标注工具
+- [x] Friend-request selection, request correlation, busy state and timeout
+- [x] Message queued/pending/sent/delivered/read/failed states
+- [x] Message ACK timeout and manual retry
+- [x] Pending resend queue after reconnection
+- [x] History cursor pagination, dedupe and draft persistence
+- [x] Non-modal confirmation/input windows, PNG-token emoji panel and shared business-dialog shell
+- [x] Screenshot feature removed by product decision
+- [x] In-window transfer task cards that never disable MainWindow
+- [x] Unified RequestTracker timeout, supersede, late-response suppression and disconnect release
+- [x] File hashing and bounded persistent thumbnail generation in background threads
+- [x] 48 KB acknowledged upload/download chunks
+- [x] Transfer request timeout and retry policy
+- [x] SHA-256 upload and download verification
+- [x] Upload/download pause and resume after reconnect
+- [x] Upload completion-response idempotency
+- [x] Attachment/message atomic SQLite persistence
+- [x] Filesystem-backed attachment payload storage with SQLite metadata
+- [x] Incremental server upload hashing and offset-based download sessions
+- [x] Legacy whole-file Base64 protocol disabled
+- [x] MainWindow implementation split into five reviewable translation units
+- [x] Incremental message rendering and history-scroll preservation
+- [x] Source static audit and schema smoke tests
+- [x] Qt 5.4 local client/server compile validation
+- [x] Two-client private text and PNG-token emoji verification
+- [ ] Full account/friend/private/group/image/file/reconnect regression matrix
+- [ ] Windows deployment package validation
 
-## P2 — 自定义界面
+## P1 — Product experience (`v1.5.0`)
 
-- [ ] 主题管理器：主色、气泡、字体、圆角和背景
-- [ ] 可导入主题包
-- [ ] 登录转场和背景动画
-- [ ] 布局密度和导航自定义
+- [ ] Message context menu: copy, reply, forward and retract
+- [ ] Reply quote bar and jump to original message
+- [ ] Paste/drag image and file sending
+- [ ] Conversation pin, mute and mark unread
+- [ ] Compact chat layout for 1366×768 and high DPI
+- [ ] Continue splitting message/conversation coordination out of `MainWindow`
+- [ ] Dedicated transfer center and persistent task queue
+- [x] Shared Aurora UI foundation: toast, empty state, settings card and dialog shell
+- [x] Image viewer with cached preview and original-file download action
+- [ ] Group name, avatar, announcement and owner transfer
+- [ ] Avatar upload
 
-## P3 — 桌面宠物
+## P2 — Customization
 
-- [ ] 透明、置顶、无任务栏桌宠窗口
-- [ ] 待机、行走、睡眠、消息、开心和离线状态
-- [ ] 新消息气泡及会话跳转
-- [ ] 屏幕边缘吸附、拖动、右键菜单和资源包切换
+- [ ] ThemeManager with accent, bubble, font, radius and background settings
+- [ ] Importable theme packages
+- [ ] Login transition and background animation
+- [ ] Layout density and navigation customization
+
+## P3 — Desktop pet
+
+- [ ] Transparent always-on-top independent pet window
+- [ ] Idle, walk, sleep, message, happy and offline states
+- [ ] New-message speech bubble and conversation jump
+- [ ] Edge snapping, drag, context menu and resource-pack switching

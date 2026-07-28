@@ -1,22 +1,29 @@
 # Aurora Chat
 
-> A Qt 5.4 desktop instant-messaging system built with C++, Qt Widgets, TCP, SQLite, custom application-layer framing, offline message recovery, group chat, and chunked file transfer.
+> A Qt 5.4 desktop instant-messaging system built with C++, Qt Widgets, TCP, SQLite, a custom application-layer protocol, offline recovery, group chat, chunked file transfer, customizable navigation and an interactive desktop pet.
 
-Aurora Chat is a product-oriented desktop IM project. It focuses on the engineering path from requirement analysis and protocol design to client/server implementation, reliability improvements, UI customization, testing, and Windows delivery.
+## Current release
+
+**v1.7.1-alpha-dragon-pet**
+
+This release replaces the earlier simplified vector pet with the user-provided orange baby-dragon model. The character uses a single source image, while movement, facing direction, breathing, jumping, flying, fire, magic, sleep, offline and message-notification effects are simulated in Qt code.
+
+Release metadata, checksums and notes are stored under `releases/v1.7.1/`.
 
 ## Highlights
 
 - **Qt 5.4 + C++11 + Qt Widgets** desktop client
 - **QTcpServer / QTcpSocket** persistent connections
-- Custom packet framing with magic number, body length, message type, and request ID
-- Registration, login, profile, friend requests, contacts, private chat, and group chat
-- Message persistence, history pagination, drafts, unread counts, reconnection, resend queue, and delivery states
-- Image and file messages with **48 KB acknowledged chunks**, progress, cancel, resume, and download authorization
-- Non-modal PNG emoji panel, image viewer, confirmation/input windows, and in-window transfer task cards
-- File hashing and image thumbnail generation moved to a background worker thread
-- SQLite stores message and attachment metadata; attachment payloads use filesystem storage
-- Custom frameless window, light/dark themes, system tray, and reusable UI components
-- SQLite data access isolated behind `DatabaseManager`
+- Custom packet framing with magic number, body length, message type and request ID
+- Registration, login, profile, friend requests, contacts, private chat and group chat
+- Message persistence, history pagination, drafts, unread counts, reconnection, resend queues and delivery states
+- Reply, forwarding, recall and conversation jump flows
+- Image and file messages with acknowledged chunks, progress, cancel, retry, resume and integrity verification
+- SQLite message and attachment metadata with filesystem-backed attachment payloads
+- Light, dark and customizable themes
+- Animated login page and per-account navigation ordering/visibility
+- Orange baby-dragon desktop pet with arbitrary positioning, roaming, scenes and message bubbles
+- Static compatibility and regression audit suite for the managed source tree
 
 ## Architecture
 
@@ -41,31 +48,23 @@ AuroraChat/
 ├── AuroraServer/      # TCP server
 ├── AuroraCommon/      # Shared protocol and packet codec
 ├── database/          # SQLite schema
-├── docs/              # Requirements, architecture, audits, roadmap
-├── scripts/           # Local launch scripts
+├── docs/              # Requirements, architecture, audits and roadmap
+├── tests/             # Static audit scripts
+├── scripts/           # Local launch helpers
+├── releases/          # Release notes, manifests and checksums
 └── AuroraChat.pro     # qmake SUBDIRS project
 ```
 
-## Current status
+## v1.7.1 desktop-pet behavior
 
-Current managed source version: **v1.4.2-alpha-emoji-render-fix**.
-
-Implemented in the managed source tree:
-
-- friend, private-chat, group-chat, history, unread, draft, reconnect, resend, receipt, and SQLite persistence flows;
-- all known business `QDialog::exec()` and blocking window-modality paths removed from the client;
-- non-modal PNG emoji panel, image viewer, confirmation/input windows, and in-window transfer task cards;
-- background file SHA-256 and thumbnail generation so heavy attachment work does not block the GUI thread;
-- 48 KB acknowledged file chunks, timeout/retry, transfer resume, cancellation, authorization, stale-response suppression, disconnect-state release, and SHA-256 verification;
-- attachment destinations frozen before asynchronous work, preventing chat switches from sending to the wrong recipient;
-- server-side attachment payloads stored on disk with SQLite metadata, bounded persistent thumbnails, incremental upload hashing, offset-based downloads, session limits, and cleanup;
-- MainWindow implementation split into chat, dialogs, packets, state, and transfer translation units; message history uses incremental prepend/append rendering.
-
-Static, interaction-core, UI-consistency, emoji-pipeline, and database smoke audits pass. Qt 5.4 + MinGW 4.9.1 client/server compilation and a two-client private text/PNG-emoji verification have passed. Full account, friend, group, image, file, reconnect and deployment regression are still required before Beta.
-
-The repository has been updated with the validated v1.4.2 status and the v1.5 P1 plan. The one-time complete source-tree import remains a separate Git operation because the connected repository action cannot upload a local directory in one call.
-
-See [Roadmap](docs/ROADMAP.md) and [Known Issues](docs/KNOWN_ISSUES.md).
+- Uses the supplied orange dragon artwork as the only character model
+- Does not generate replacement character images or action-frame sheets
+- Allows arbitrary desktop coordinates instead of forced four-edge placement
+- Supports left/right mirroring according to movement direction
+- Supports idle breathing, roaming, flight, jump, happy, fire, magic, sleep, offline and notification states
+- Supports clean, forest-firefly, ember, magic-circle and cloud scenes rendered with `QPainter`
+- Preserves tray recovery, network-state integration and chat-message navigation
+- Saves visibility, position, size, scene and behavior options per account
 
 ## Build
 
@@ -82,7 +81,7 @@ Steps:
 3. Run qmake and build all subprojects.
 4. Start `AuroraServer` first.
 5. Start two or more `AuroraClient` instances.
-6. Register different accounts and test friend, private chat, group, and transfer flows.
+6. Register different accounts and test friend, private-chat, group and transfer flows.
 
 Default server endpoint:
 
@@ -90,22 +89,19 @@ Default server endpoint:
 127.0.0.1:9527
 ```
 
-## Engineering value
+## Validation status
 
-This project demonstrates:
+The v1.7.1 source archive passed ZIP integrity verification. The recorded SHA-256 is:
 
-- client/server architecture and application-layer protocol design;
-- TCP sticky-packet and partial-packet handling;
-- asynchronous UI state management with Qt signals and slots;
-- message idempotency, pending queues, delivery/read receipts, and reconnection;
-- SQLite schema design and parameterized queries;
-- chunked file transfer, filesystem-backed payload storage, permissions, cancellation, resume, and integrity verification;
-- reusable Qt Widgets, QSS themes, custom frameless dialogs, and desktop integration;
-- Vibe Coding workflow with requirement decomposition, AI-assisted implementation, manual review, debugging, and iterative validation.
+```text
+fc2ec37d4722afef9bb49df8a935d63a5628860d6ea2aba96a91ef691cc71b16
+```
 
-## Resume summary
+The managed source records report 13/13 project audits passing with no Qt 5.4/C++11 compatibility finding.
 
-> Developed a Qt 5.4 desktop instant-messaging system using C++, Qt Widgets, QTcpSocket/QTcpServer, a custom framed JSON protocol, and SQLite. Implemented account and friend workflows, private/group messaging, history pagination, offline resend and delivery states, chunked file transfer, image/file delivery, system tray integration, and light/dark themes and reusable non-modal interaction components. Used a structured Vibe Coding workflow for requirement decomposition, code generation, review, debugging, and iterative delivery.
+## Engineering boundary
+
+Aurora Chat is currently positioned as a Qt/C++ engineering and job-portfolio project. Direct public-internet production deployment would still require TLS, stronger password hashing, session/token management, abuse rate limits, file-content inspection, monitoring, backup and operational hardening.
 
 ## License
 

@@ -1,0 +1,13 @@
+{
+  "project": "AuroraChat",
+  "version": "v1.7.1-alpha-dragon-pet",
+  "package_type": "source",
+  "archive": "AuroraChat-v1.7.1-alpha-dragon-pet-source.zip",
+  "size_bytes": 2077019,
+  "sha256": "fc2ec37d4722afef9bb49df8a935d63a5628860d6ea2aba96a91ef691cc71b16",
+  "qt_target": "Qt 5.4",
+  "cpp_standard": "C++11",
+  "zip_integrity": "passed",
+  "audit_suites": 13,
+  "audit_issues": 0
+}
